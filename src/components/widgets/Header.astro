@@ -5,6 +5,7 @@ import ToggleTheme from '~/components/common/ToggleTheme.astro';
 import ToggleMenu from '~/components/common/ToggleMenu.astro';
 import Button from '~/components/ui/Button.astro';
 
+import { ORG } from '~/data/site';
 import { getHomePermalink } from '~/utils/permalinks';
 import { trimSlash, getAsset } from '~/utils/permalinks';
 import type { CallToAction } from '~/types';
@@ -88,10 +89,16 @@ const persistKey = `header-${Array.from(
       ]}
     >
       <div class:list={[{ 'mr-auto rtl:mr-0 rtl:ml-auto': position === 'right' }, 'flex justify-between']}>
-        <a class="flex items-center" href={getHomePermalink()}>
+        <a class="flex items-center rounded-full" href={getHomePermalink()} aria-label={`${ORG.name}: home`}>
           <Logo />
         </a>
-        <div class="flex items-center lg:hidden">
+        <div class="flex items-center gap-1 lg:hidden">
+          {/* On phones the actions (Donate) stay visible next to the menu button. */}
+          {
+            actions.map((btnProps) => (
+              <Button {...btnProps} class="py-2 px-4 md:px-4 font-semibold shadow-none text-sm w-auto" />
+            ))
+          }
           <ToggleMenu />
         </div>
       </div>
@@ -100,7 +107,7 @@ const persistKey = `header-${Array.from(
         aria-label="Main navigation"
       >
         <ul
-          class="flex flex-col lg:flex-row lg:self-center w-full lg:w-auto text-xl lg:text-[0.9375rem] tracking-[0.01rem] font-medium lg:justify-center"
+          class="flex flex-col lg:flex-row lg:self-center w-full lg:w-auto text-xl lg:text-base tracking-[0.01rem] font-medium lg:justify-center"
         >
           {
             links.map(({ text, href, links }) => (
@@ -136,10 +143,11 @@ const persistKey = `header-${Array.from(
                 ) : (
                   <a
                     class:list={[
-                      'hover:text-link dark:hover:text-white px-4 py-3 flex items-center whitespace-nowrap',
+                      'hover:text-link dark:hover:text-white px-4 lg:px-3 xl:px-4 py-4 lg:py-3 flex items-center whitespace-nowrap max-lg:border-b max-lg:border-gray-200 dark:max-lg:border-gray-700 rounded-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-link',
                       { 'aw-link-active': isActive(href) },
                     ]}
                     href={href}
+                    aria-current={isActive(href) ? 'page' : undefined}
                   >
                     {text}
                   </a>
@@ -149,10 +157,14 @@ const persistKey = `header-${Array.from(
           }
         </ul>
       </nav>
+      {
+        /* Desktop only: on phones the actions sit next to the menu button instead,
+           so `max-lg:hidden!` wins over the menu toggle's `hidden` switch. */
+      }
       <div
         class:list={[
           { 'ml-auto rtl:ml-0 rtl:mr-auto': position === 'left' },
-          'hidden lg:self-center lg:flex items-center lg:mb-0 fixed w-full lg:w-auto lg:static justify-end left-0 rtl:left-auto rtl:right-0 bottom-0 p-3 lg:p-0 lg:justify-self-end',
+          'hidden max-lg:hidden! lg:self-center lg:flex items-center lg:justify-self-end',
         ]}
       >
         <div class="items-center flex justify-between w-full lg:w-auto">
@@ -298,7 +310,10 @@ const persistKey = `header-${Array.from(
         // would light up everywhere; only path links can be "the current page".
         const isPathLink =
           url.origin === window.location.origin && !url.hash && !a.getAttribute('href')?.startsWith('#');
-        a.classList.toggle('aw-link-active', isPathLink && norm(url.pathname) === current);
+        const isCurrent = isPathLink && norm(url.pathname) === current;
+        a.classList.toggle('aw-link-active', isCurrent);
+        if (isCurrent) a.setAttribute('aria-current', 'page');
+        else a.removeAttribute('aria-current');
       });
     }
   }

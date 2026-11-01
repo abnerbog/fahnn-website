@@ -66,6 +66,11 @@
   @apply btn;
 }
 
+/* Donate and other key calls to action. */
+@utility btn-accent {
+  @apply btn font-semibold bg-accent text-white border-accent hover:bg-accent/85 hover:border-accent/85 hover:text-white dark:text-white dark:bg-accent dark:border-accent dark:hover:bg-accent/85;
+}
+
 @utility btn-tertiary {
   @apply btn border-none shadow-none text-muted hover:text-gray-900 dark:text-gray-400 dark:hover:text-white;
 }
@@ -88,10 +93,10 @@
 
 #header.expanded nav {
   position: fixed;
-  top: 70px;
+  top: 80px; /* height of the phone header: 56px logo + 24px padding */
   left: 0;
   right: 0;
-  bottom: 70px !important;
+  bottom: 0 !important;
   padding: 0 5px;
 }
 
@@ -123,7 +128,7 @@
    kept in sync on client-side navigations). Override --aw-color-link in
    CustomStyles.astro to change the colour. */
 #header nav .aw-link-active {
-  @apply text-link;
+  @apply text-link underline decoration-2 underline-offset-8;
 }
 
 .dd *:first-child {
