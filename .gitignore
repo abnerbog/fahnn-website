@@ -26,3 +26,5 @@ pnpm-lock.yaml
 pnpm-workspace.yaml
 
 .astro
+# internal planning docs (not published; repo is public)
+docs/
