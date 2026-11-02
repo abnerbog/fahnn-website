@@ -1,7 +1,12 @@
 {
-  "name": "@arthelokyo/astrowind",
-  "version": "1.0.0-beta.66",
-  "description": "AstroWind: A free template using Astro 7 and Tailwind CSS v4. Astro starter theme.",
+  "name": "fahnn-website",
+  "version": "0.1.0",
+  "description": "Website for Food Access Healthy Neighborhoods Now (FAHNN), a neighbor-led nonprofit in Syracuse’s Valley/Southside.",
+  "homepage": "https://fahnn.netlify.app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/abnerbog/fahnn-website.git"
+  },
   "type": "module",
   "private": true,
   "engines": {

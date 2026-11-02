@@ -1,9 +1,20 @@
 ---
-import { SITE } from 'astrowind:config';
+import { Image } from 'astro:assets';
+import { twMerge } from 'tailwind-merge';
+import logo from '~/assets/images/logo_fahnn.png';
+
+export interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
 ---
 
-<span
-  class="self-center ml-2 rtl:ml-0 rtl:mr-2 text-2xl md:text-xl font-bold text-gray-900 whitespace-nowrap dark:text-white"
->
-  🚀 {SITE?.name}
-</span>
+<Image
+  src={logo}
+  alt=""
+  width={256}
+  height={256}
+  loading="eager"
+  class={twMerge('h-14 w-14 lg:h-16 lg:w-16 rounded-full bg-white ring-1 ring-black/5 dark:ring-white/10', className)}
+/>
