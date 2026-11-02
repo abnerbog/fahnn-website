@@ -1,10 +1,11 @@
-import { getPermalink } from './utils/permalinks';
+import { getHomePermalink, getPermalink } from './utils/permalinks';
 import { ORG } from './data/site';
 
 // The five main pages, in the order a first-time visitor needs them: who we
 // are, what we do, who we are together, what's new, and how to join in.
+// Our Story is the home page; /our-story redirects there (astro.config.ts).
 const mainPages = [
-  { text: 'Our Story', href: getPermalink('/our-story') },
+  { text: 'Our Story', href: getHomePermalink() },
   { text: 'What We Do', href: getPermalink('/what-we-do') },
   { text: 'Our People', href: getPermalink('/our-people') },
   { text: 'News', href: getPermalink('/news') },
@@ -13,7 +14,7 @@ const mainPages = [
 
 export const headerData = {
   links: mainPages,
-  actions: [{ text: 'Donate', href: getPermalink('/donate'), variant: 'accent' as const, icon: 'tabler:heart' }],
+  actions: [{ text: 'Donate', href: getPermalink('/donate'), variant: 'primary' as const }],
 };
 
 export const footerData = {
@@ -34,10 +35,16 @@ export const footerData = {
           ariaLabel: 'Directions to FAHNN (opens Google Maps in a new tab)',
         },
         { text: 'Get our newsletter', href: getPermalink('/get-involved#newsletter') },
+        {
+          text: 'Our bylaws (PDF)',
+          href: ORG.bylawsUrl,
+          target: '_blank',
+          ariaLabel: 'Our bylaws (PDF, opens in a new tab)',
+        },
       ],
     },
   ],
-  secondaryLinks: [{ text: 'Privacy', href: getPermalink('/privacy') }],
+  secondaryLinks: [],
   socialLinks: [
     { ariaLabel: 'FAHNN on Instagram', icon: 'tabler:brand-instagram', href: ORG.social.instagram },
     { ariaLabel: 'FAHNN on Facebook', icon: 'tabler:brand-facebook', href: ORG.social.facebook },

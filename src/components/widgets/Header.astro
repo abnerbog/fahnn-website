@@ -73,7 +73,7 @@ const persistKey = `header-${Array.from(
     {...isSticky ? { 'data-aw-sticky-header': true } : {}}
     {...id ? { id } : {}}
   >
-    <div class="absolute inset-0"></div>
+    <div class="absolute inset-0 bg-chrome"></div>
     <div
       class:list={[
         'relative text-default py-3 px-3 lg:px-6 mx-auto w-full',
@@ -231,7 +231,7 @@ const persistKey = `header-${Array.from(
         toggle?.classList.remove('expanded');
         toggle?.setAttribute('aria-expanded', 'false');
         document.body.classList.remove('overflow-hidden');
-        header?.classList.remove('h-screen', 'expanded', 'bg-page');
+        header?.classList.remove('h-screen', 'expanded', 'bg-chrome');
         nav?.classList.add('hidden');
         lastChild?.classList.add('hidden');
       };
@@ -243,7 +243,7 @@ const persistKey = `header-${Array.from(
         document.body.classList.toggle('overflow-hidden');
         header?.classList.toggle('h-screen');
         header?.classList.toggle('expanded');
-        header?.classList.toggle('bg-page');
+        header?.classList.toggle('bg-chrome');
         nav?.classList.toggle('hidden');
         lastChild?.classList.toggle('hidden');
       });
