@@ -4,13 +4,13 @@ This repository is the website for **Food Access Healthy Neighborhoods Now (FAHN
 
 ## About FAHNN
 
-FAHNN is a neighbor-led 501(c)(3) nonprofit in Syracuse, NY's Valley/Southside neighborhood, founded in **2019** by longtime residents.
+FAHNN is a neighbor-led 501(c)(3) nonprofit in Syracuse, NY's Valley/Southside neighborhood, founded in **2019** by longtime residents and incorporated as a nonprofit in **June 2026**.
 
 - **Mission:** FAHNN works with neighbors and partners in Syracuse's Valley/Southside to build food, health, and education resources on land the community owns.
 - **Vision:** _Community wealth. Community flourishing. Community sovereignty._ In Syracuse's historically impoverished Valley/Southside, FAHNN is building all three: rooted in food, health, education, and land that neighbors own, so no one has to leave to thrive.
 - **Core belief:** **Food and health are human rights.** FAHNN works for access to food _and_ health services. Never reduce it to "a food organization" or "a farmers market."
 - **The problem:** In 2018 the neighborhood's only full-service grocery store, at the Valley Plaza, closed. Since then there has been **no full-service grocery store within a 2-mile radius** of Valley Plaza.
-- **FAHNN as catalyst:** FAHNN's weekly markets proved the demand → FAHNN was a catalyst for the City of Syracuse's **$1.7 million** grocery store investment (the City is the grantee) → a new grocery store opens at the Plaza in **2027** → an independent pharmacy is coming to the Plaza → next, a community-owned hub for food, health, and services in the Valley/Southside.
+- **FAHNN as catalyst:** FAHNN's weekly markets proved the demand → FAHNN was a catalyst for a **$1.7 million** Food Access Expansion grant (**2025**; the Syracuse Economic Development Corporation is the grantee) to renovate the empty Tops space and open Super Imperial Market → a new grocery store opens at the Plaza in **2027** → an independent pharmacy is coming to the Plaza → next, a community-owned hub for food, health, and services in the Valley/Southside.
 - **Farmers Market:** Saturdays, 8 a.m.–2 p.m., 4141 S Salina St, Syracuse, NY 13205. SNAP accepted.
 - **Programs:** Farmers Market (summer and winter), Mobile Markets for senior residences, Wellness Wednesdays, workshops and public conversations with officials, community gatherings (Thanksgiving drive, community dinner, open house).
 - **Public contact:** fahnnsyracuse@gmail.com · Instagram `@healthyneighborhoodsnow` · Facebook `fahnnsyracuse`.
@@ -25,7 +25,7 @@ FAHNN is a neighbor-led 501(c)(3) nonprofit in Syracuse, NY's Valley/Southside n
 
 ### Planned pages
 
-Header: Our Story · What We Do · Our People · News · Get Involved, plus Search and a **Donate** button. Also: Home, Donate, Contact, FAHNN at a Glance (fast facts, boilerplate, downloads; linked from the footer), Privacy.
+Header: Our Story · What We Do · Our People · News · Get Involved, plus Search and a **Donate** button. **Our Story is the home page** (`/`; `/our-story` redirects there). Also: Donate, Contact, FAHNN at a Glance (fast facts, boilerplate, downloads; linked from the footer), Privacy.
 
 ## Voice and content rules
 
@@ -36,7 +36,7 @@ Header: Our Story · What We Do · Our People · News · Get Involved, plus Sear
 - **Naming the problem: a three-step ladder.**
   1. The fact: "Since 2018, there has been no full-service grocery store within 2 miles of Valley Plaza."
   2. The cause, in plain words: decisions about where stores open and close, and where money is invested, left the neighborhood behind. It didn't just happen.
-  3. The name, **only on Our Story, once, with its definition:** "Some people call this a 'food desert.' But deserts are natural, and this was made by people. That's why many call it **food apartheid**: when whether you can get healthy food depends on where you live, who you are, and decisions made by others."
+  3. The name, **only on Our Story, once, with its definition** (not used today: the home page stops at step 2): "Some people call this a 'food desert.' But deserts are natural, and this was made by people. That's why many call it **food apartheid**: when whether you can get healthy food depends on where you live, who you are, and decisions made by others."
   - Never use "food apartheid" without that definition, and never in the hero, buttons, the Donate page, or fast facts.
   - Always follow the problem with what FAHNN did about it, in the same section.
 - **No specific impact counts** (people served, pounds of food, number of workshops) unless FAHNN provides a verified record. Show impact through verifiable facts, photos (weekly markets since 2019), press coverage, quotes, and video.
@@ -52,7 +52,8 @@ Header: Our Story · What We Do · Our People · News · Get Involved, plus Sear
 
 ## Design system
 
-- **Palette:** Forest `#1E4A2E` (primary: headings, header and footer, primary buttons) · Garden `#2F7A3B` (links, accents) · Tomato `#B8432A` (Donate and key calls to action) · Sunflower `#F2B33D` (small accents only, never text on light backgrounds) · Sprout `#E6F0DC` (section backgrounds) · Cream `#FBF7EF` (page) · Ink `#24211D` (body text). Dark mode: Night `#141A15`, surface `#1D261F`, text `#EDE8DE`, Leaf `#8CC97A`, Tomato-light `#F08A6C` (with dark text). All text pairings meet WCAG AA.
+- **Palette:** Forest `#1E4A2E` (primary: headings, primary buttons, the **Donate** button, closing bands) · Garden `#2F7A3B` (links, accents) · Tomato `#B8432A` (sparing highlights) · Sunflower `#F2B33D` (small accents only, never text on light backgrounds) · Sprout `#E6F0DC` (section backgrounds) · Cream `#FBF7EF` (page) · White (header and footer) · Ink `#24211D` (body text). Dark mode: Night `#141A15`, surface `#1D261F`, text `#EDE8DE`, Leaf `#8CC97A`, Tomato-light `#F08A6C` (with dark text). All text pairings meet WCAG AA. Green leads; no blue anywhere.
+  - Defined once in `src/components/CustomStyles.astro` and used through Tailwind tokens: `primary` (Forest; Leaf in dark mode), `secondary` (Garden), `accent` (Tomato), `highlight` (Sunflower), `surface` (Sprout), `chrome` (header and footer: white; Night in dark mode), `on-primary` / `on-accent` (text on filled buttons and bands), plus `bg-page`, `text-heading`, `text-default`, `text-muted`, `text-link`. Never hardcode a hex value or a Tailwind color like `blue-500` in a component.
 - **Type:** Fraunces (headings and big statements) and Atkinson Hyperlegible (body and interface), via the Astro Fonts API. Body text at 18px or larger.
 - **Feel:** warm, grassroots, polished. Full-bleed real photos, generous spacing, rounded corners. Move away from the template's tech-startup look.
 - **Accessibility:** WCAG AA contrast, keyboard navigation, captions on video, no autoplaying sound.
