@@ -35,12 +35,6 @@ export const footerData = {
           ariaLabel: 'Directions to FAHNN (opens Google Maps in a new tab)',
         },
         { text: 'Get our newsletter', href: getPermalink('/get-involved#newsletter') },
-        {
-          text: 'Our bylaws (PDF)',
-          href: ORG.bylawsUrl,
-          target: '_blank',
-          ariaLabel: 'Our bylaws (PDF, opens in a new tab)',
-        },
       ],
     },
   ],
