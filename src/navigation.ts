@@ -27,6 +27,12 @@ export const footerData = {
       links: [
         { text: 'Donate', href: getPermalink('/donate') },
         { text: 'Contact us', href: getPermalink('/contact') },
+        {
+          text: 'Directions to FAHNN',
+          href: ORG.mapUrl,
+          target: '_blank',
+          ariaLabel: 'Directions to FAHNN (opens Google Maps in a new tab)',
+        },
         { text: 'Get our newsletter', href: getPermalink('/get-involved#newsletter') },
       ],
     },

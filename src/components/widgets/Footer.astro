@@ -1,13 +1,16 @@
 ---
 import { Icon } from 'astro-icon/components';
+import Logo from '~/components/Logo.astro';
 import ToggleTheme from '~/components/common/ToggleTheme.astro';
 import { ORG } from '~/data/site';
+import { getHomePermalink } from '~/utils/permalinks';
 
 interface Link {
   text?: string;
   href?: string;
   ariaLabel?: string;
   icon?: string;
+  target?: string;
 }
 
 interface Links {
@@ -33,15 +36,15 @@ const linkClass =
   data-pagefind-ignore="all"
 >
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6">
-    {/* The first column is wider so the full name fits on one line from 1280px up. */}
-    <div class="grid grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr] gap-y-10 gap-x-8 py-12 md:py-16 text-center">
-      <div class="col-span-2 lg:col-span-1">
-        <h2 class="font-heading text-lg font-bold text-heading mb-3 text-balance">{ORG.name}</h2>
-        <address class="not-italic leading-relaxed">
-          {ORG.address.street}<br />
-          {`${ORG.address.city}, ${ORG.address.region} ${ORG.address.postalCode}`}<br />
-          <a class={linkClass} href={`mailto:${ORG.email}`}>{ORG.email}</a>
-        </address>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-8 py-12 md:py-16 text-center">
+      <div class="col-span-2 lg:col-span-1 flex justify-center lg:self-center">
+        <a
+          class="rounded-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-link"
+          href={getHomePermalink()}
+          aria-label={`${ORG.name}: home`}
+        >
+          <Logo class="h-32 w-32 lg:h-32 lg:w-32" />
+        </a>
       </div>
       {
         links.map(({ title, links }) => (
@@ -49,9 +52,14 @@ const linkClass =
             <h2 class="font-heading text-lg font-bold text-heading mb-3">{title}</h2>
             {links?.length > 0 && (
               <ul>
-                {links.map(({ text, href, ariaLabel }) => (
+                {links.map(({ text, href, ariaLabel, target }) => (
                   <li class="mb-2.5">
-                    <a class={linkClass} href={href} aria-label={ariaLabel}>
+                    <a
+                      class={linkClass}
+                      href={href}
+                      aria-label={ariaLabel}
+                      {...(target ? { target, rel: 'noopener noreferrer' } : {})}
+                    >
                       <Fragment set:html={text} />
                     </a>
                   </li>
