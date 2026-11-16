@@ -5,6 +5,7 @@ import Image from '~/components/common/Image.astro';
 import Button from '~/components/ui/Button.astro';
 import Headline from '~/components/ui/Headline.astro';
 import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import LogoCarousel from '~/components/ui/LogoCarousel.astro';
 import Timeline from '~/components/widgets/Timeline.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 import StructuredData from '~/components/common/StructuredData.astro';
@@ -290,36 +291,11 @@ const investmentText = investmentUrl
       subtitle="Farms, schools, city leaders, and community groups help us bring food and health to the Valley/Southside."
       classes={{ container: 'max-w-3xl' }}
     />
-    <ul class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:gap-6">
-      {
-        PARTNERS.map(({ src, alt, href }) => {
-          const logo = (
-            <Image
-              src={src}
-              alt={alt ?? ''}
-              height={96}
-              widths={[192, 384]}
-              sizes="192px"
-              layout="none"
-              format="webp"
-              class="h-16 w-auto max-w-full object-contain md:h-20"
-            />
-          );
-          return (
-            <li class="flex h-28 items-center justify-center rounded-2xl bg-white p-4 ring-1 ring-black/10 md:h-36 md:p-6">
-              {href ? (
-                <a href={href} target="_blank" rel="noopener noreferrer">
-                  {logo}
-                </a>
-              ) : (
-                logo
-              )}
-            </li>
-          );
-        })
-      }
-    </ul>
-    <div class="mt-10 text-center">
+    <LogoCarousel
+      logos={PARTNERS.map(({ logo, name, href }) => ({ src: logo, alt: name, href }))}
+      label="partner logos"
+    />
+    <div class="mt-8 text-center">
       <Button variant="secondary" text="Meet our people" href={getPermalink('/our-people')} icon="tabler:arrow-right" />
     </div>
   </WidgetWrapper>

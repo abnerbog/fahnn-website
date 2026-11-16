@@ -1,0 +1,155 @@
+---
+/**
+ * An endless, slowly scrolling row of logos on white cards.
+ *
+ * The row is rendered twice and both copies slide left by their own width, so
+ * the loop has no seam. Only the first copy is read by screen readers and
+ * reached by keyboard. The row stops while hovered or focused, and a Pause
+ * button (shown once JavaScript runs) stops it for good (WCAG 2.2.2). For
+ * people who prefer reduced motion, it is a still, centred grid instead.
+ *
+ * The loop looks seamless once one row of logos is wider than the container
+ * (about six or more logos).
+ */
+import type { ImageMetadata } from 'astro';
+import { Icon } from 'astro-icon/components';
+import Image from '~/components/common/Image.astro';
+
+interface Logo {
+  src: string | ImageMetadata;
+  alt: string;
+  href?: string;
+}
+
+export interface Props {
+  logos: Array<Logo>;
+  /** What the logos are, for the Pause button's label (e.g. "partner logos"). */
+  label?: string;
+  /** Scroll speed; the loop takes this many seconds per logo. */
+  secondsPerLogo?: number;
+  class?: string;
+}
+
+const { logos, label = 'logos', secondsPerLogo = 4, class: className } = Astro.props;
+const duration = `${Math.max(20, logos.length * secondsPerLogo)}s`;
+---
+
+<aw-logo-carousel class:list={['block', className]} style={`--aw-carousel-duration: ${duration}`}>
+  <div
+    class="aw-carousel-viewport flex overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]"
+  >
+    {
+      [0, 1].map((copy) => (
+        <ul
+          role={copy === 0 ? 'list' : undefined}
+          aria-hidden={copy === 1 ? 'true' : undefined}
+          class="aw-carousel-track flex shrink-0 items-center gap-4 pr-4 md:gap-6 md:pr-6"
+        >
+          {logos.map(({ src, alt, href }) => {
+            const logo = (
+              <Image
+                src={src}
+                alt={alt}
+                height={96}
+                widths={[192, 384]}
+                sizes="192px"
+                layout="none"
+                format="webp"
+                class="h-auto max-h-full w-auto max-w-full object-contain"
+              />
+            );
+            return (
+              <li class="flex h-24 w-48 shrink-0 items-center justify-center rounded-2xl bg-white p-4 ring-1 ring-black/10 md:h-28 md:w-56 md:p-5">
+                {href ? (
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    tabindex={copy === 1 ? -1 : undefined}
+                    class="flex h-full w-full items-center justify-center"
+                  >
+                    {logo}
+                    <span class="sr-only"> (opens in a new tab)</span>
+                  </a>
+                ) : (
+                  logo
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      ))
+    }
+  </div>
+  <div class="aw-carousel-controls mt-3 flex justify-end">
+    <button
+      type="button"
+      hidden
+      data-aw-carousel-toggle
+      class="inline-flex min-h-11 items-center gap-2 rounded-full px-4 text-base font-bold text-muted transition hover:text-heading focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+    >
+      <span class="aw-carousel-pause inline-flex items-center gap-2">
+        <Icon name="tabler:player-pause" class="h-5 w-5" aria-hidden="true" />
+        Pause<span class="sr-only"> {label}</span>
+      </span>
+      <span class="aw-carousel-play items-center gap-2">
+        <Icon name="tabler:player-play" class="h-5 w-5" aria-hidden="true" />
+        Play<span class="sr-only"> {label}</span>
+      </span>
+    </button>
+  </div>
+</aw-logo-carousel>
+
+<script>
+  class AwLogoCarousel extends HTMLElement {
+    connectedCallback() {
+      const button = this.querySelector<HTMLButtonElement>('[data-aw-carousel-toggle]');
+      if (!button) return;
+      button.hidden = false;
+      button.addEventListener('click', () => this.toggleAttribute('data-paused'));
+    }
+  }
+  if (!customElements.get('aw-logo-carousel')) customElements.define('aw-logo-carousel', AwLogoCarousel);
+</script>
+
+<style>
+  .aw-carousel-track {
+    animation: aw-carousel var(--aw-carousel-duration, 40s) linear infinite;
+  }
+  .aw-carousel-viewport:hover .aw-carousel-track,
+  .aw-carousel-viewport:focus-within .aw-carousel-track,
+  aw-logo-carousel[data-paused] .aw-carousel-track {
+    animation-play-state: paused;
+  }
+  .aw-carousel-play {
+    display: none;
+  }
+  aw-logo-carousel[data-paused] .aw-carousel-pause {
+    display: none;
+  }
+  aw-logo-carousel[data-paused] .aw-carousel-play {
+    display: inline-flex;
+  }
+  @keyframes aw-carousel {
+    to {
+      transform: translateX(-100%);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .aw-carousel-viewport {
+      mask-image: none;
+    }
+    .aw-carousel-track {
+      animation: none;
+      flex-shrink: 1;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+      padding-right: 0;
+    }
+    .aw-carousel-track[aria-hidden='true'],
+    .aw-carousel-controls {
+      display: none;
+    }
+  }
+</style>

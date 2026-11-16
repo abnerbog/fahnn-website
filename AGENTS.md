@@ -70,7 +70,8 @@ Header: Our Story · Our People · News · Get Involved, plus Search and a **Don
 
 - Work one build step per session, following the checklist in `docs/site-plan.md` when present. Each step ends in one commit.
 - Before committing: `npm run build` and `npm run check` must pass.
-- Images live in `src/assets/images/`, named in `snake_case` (e.g. `logo_<partner>.png`, `farmers_market_<scene>.png`).
+- Images live in `src/assets/images/`, named in `snake_case` (e.g. `logo_partner_<partner>.png`, `farmers_market_<scene>.png`).
+- **Partner logos:** every `logo_partner_*` image appears automatically in the home page's logo carousel (`src/components/ui/LogoCarousel.astro`). An optional number sets its position (`logo_partner_01_city_of_syracuse.png` comes first); unnumbered logos follow alphabetically. Add the partner's name (and website, if any) to `DETAILS` in `src/data/partners.ts`.
 
 ---
 
