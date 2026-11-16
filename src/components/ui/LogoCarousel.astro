@@ -4,8 +4,9 @@
  *
  * The row is rendered twice and both copies slide left by their own width, so
  * the loop has no seam. Only the first copy is read by screen readers and
- * reached by keyboard. The row stops while hovered or focused, and a Pause
- * button (shown once JavaScript runs) stops it for good (WCAG 2.2.2). For
+ * reached by keyboard. The Pause/Play button (shown once JavaScript runs)
+ * stops and restarts it (WCAG 2.2.2). If a logo has a link, the row also holds
+ * still while that link has keyboard focus, so it can't slide away. For
  * people who prefer reduced motion, it is a still, centred grid instead.
  *
  * The loop looks seamless once one row of logos is wider than the container
@@ -116,8 +117,7 @@ const duration = `${Math.max(20, logos.length * secondsPerLogo)}s`;
   .aw-carousel-track {
     animation: aw-carousel var(--aw-carousel-duration, 40s) linear infinite;
   }
-  .aw-carousel-viewport:hover .aw-carousel-track,
-  .aw-carousel-viewport:focus-within .aw-carousel-track,
+  .aw-carousel-viewport:has(:focus-visible) .aw-carousel-track,
   aw-logo-carousel[data-paused] .aw-carousel-track {
     animation-play-state: paused;
   }
