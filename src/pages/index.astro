@@ -241,31 +241,28 @@ const investmentText = investmentUrl
       subtitle="With our partners, we bring neighbors together to learn, eat well, and look out for each other."
       classes={{ container: 'max-w-3xl' }}
     />
-    <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    <ul class="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
       {
-        PROGRAMS.map(({ id, name, description, icon }) => (
-          <li class="flex flex-col rounded-2xl border border-black/10 p-6 dark:border-white/10">
-            <span class="flex h-12 w-12 items-center justify-center rounded-full bg-surface text-secondary">
-              <Icon name={icon} class="h-6 w-6" aria-hidden="true" />
-            </span>
-            <h3 class="mt-4 text-xl font-bold text-heading">
-              <a href={getPermalink(`/what-we-do#${id}`)} class="hover:underline">
-                {name}
-              </a>
-            </h3>
+        PROGRAMS.map(({ name, description, image, alt, focus }) => (
+          <li class="flex flex-col">
+            <Image
+              src={image}
+              alt={alt}
+              widths={[320, 480, 640, 960]}
+              sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 300px"
+              width={960}
+              height={720}
+              layout="constrained"
+              format="webp"
+              class="aspect-[4/3] w-full rounded-2xl object-cover shadow-lg"
+              style={focus ? `object-position: ${focus}` : undefined}
+            />
+            <h3 class="mt-5 text-xl font-bold text-heading">{name}</h3>
             <p class="mt-2 text-lg text-pretty text-muted">{description}</p>
           </li>
         ))
       }
     </ul>
-    <div class="mt-10 text-center">
-      <Button
-        variant="secondary"
-        text="See everything we do"
-        href={getPermalink('/what-we-do')}
-        icon="tabler:arrow-right"
-      />
-    </div>
   </WidgetWrapper>
 
   <!-- 5. What changed: the investment followed ************************ -->

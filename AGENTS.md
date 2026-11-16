@@ -25,7 +25,7 @@ FAHNN is a neighbor-led 501(c)(3) nonprofit in Syracuse, NY's Valley/Southside n
 
 ### Planned pages
 
-Header: Our Story · What We Do · Our People · News · Get Involved, plus Search and a **Donate** button. **Our Story is the home page** (`/`; `/our-story` redirects there). Also: Donate, Contact, FAHNN at a Glance (fast facts, boilerplate, downloads; linked from the footer), Privacy.
+Header: Our Story · Our People · News · Get Involved, plus Search and a **Donate** button. **Our Story is the home page** (`/`; `/our-story` redirects there), and its "More than a market" section covers the programs with photo cards (there is no separate What We Do page). Also: Donate, Contact, FAHNN at a Glance (fast facts, boilerplate, downloads; linked from the footer), Privacy.
 
 ## Voice and content rules
 
