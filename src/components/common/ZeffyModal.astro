@@ -1,0 +1,105 @@
+---
+// Zeffy donation form as a popup. Rendered once in Layout.astro; any link to
+// /donate (header button, page buttons, footer, post text) opens it instead of
+// navigating. Ctrl/Cmd/middle-click still opens /donate normally.
+//
+// This replaces Zeffy's own embed script (embed-form-script.min.js), which only
+// runs on DOMContentLoaded and so breaks after a <ClientRouter /> page
+// transition, and which doesn't stop a Donate *link* from also navigating.
+// It speaks the same protocol: the `?modal=true` form, an `open` message sent
+// to the iframe, and a `close` message sent back by Zeffy's close button.
+import { DONATE } from '~/data/site';
+import { getPermalink } from '~/utils/permalinks';
+
+const formUrl = `${DONATE.zeffyFormUrl}?modal=true`;
+---
+
+<dialog
+  id="zeffy-modal"
+  transition:persist
+  data-form-url={formUrl}
+  data-donate-path={getPermalink('/donate')}
+  aria-label="Donate to FAHNN"
+  class="m-0 p-0 max-w-none max-h-none w-full h-full bg-transparent overflow-hidden md:inset-x-[10%] md:inset-y-[5%] md:w-[80%] md:h-[90%]"
+>
+  <iframe title="Donation form, powered and secured by Zeffy" allow="payment" class="w-full h-full border-0 rounded"
+  ></iframe>
+</dialog>
+
+<style>
+  dialog::backdrop {
+    background: rgb(0 0 0 / 0.5);
+  }
+  :global(html:has(#zeffy-modal[open])) {
+    overflow: hidden;
+  }
+</style>
+
+<script>
+  const ZEFFY_ID = 'zeffy-iframe';
+
+  const getModal = () => document.getElementById('zeffy-modal') as HTMLDialogElement | null;
+  const norm = (p: string) => '/' + p.replace(/^\/+|\/+$/g, '');
+
+  // A same-site link to /donate, unless we're already on /donate (its inline form takes over there).
+  const donateLinkFrom = (target: EventTarget | null) => {
+    const modal = getModal();
+    const link = (target as Element | null)?.closest?.('a[href]') as HTMLAnchorElement | null;
+    if (!modal || !link) return null;
+    const url = new URL(link.href, location.href);
+    const donatePath = norm(modal.dataset.donatePath || '/donate');
+    if (url.origin !== location.origin || norm(url.pathname) !== donatePath) return null;
+    if (norm(location.pathname) === donatePath) return null;
+    return { modal, iframe: modal.querySelector('iframe')! };
+  };
+
+  // Load the form the first time someone shows intent (hover, focus, tap), so it's
+  // usually ready by the click without every visitor loading Zeffy on every page.
+  const load = (iframe: HTMLIFrameElement, modal: HTMLDialogElement) => {
+    if (iframe.src) return;
+    const url = new URL(modal.dataset.formUrl!);
+    url.searchParams.set('cachebust', String(Date.now()));
+    iframe.src = url.toString();
+    iframe.addEventListener('load', () => {
+      if (modal.open) iframe.contentWindow?.postMessage({ id: ZEFFY_ID, open: true }, '*');
+    });
+  };
+
+  const preload = (e: Event) => {
+    const hit = donateLinkFrom(e.target);
+    if (hit) load(hit.iframe, hit.modal);
+  };
+  ['pointerover', 'focusin', 'touchstart'].forEach((type) =>
+    document.addEventListener(type, preload, { passive: true })
+  );
+
+  // Capture phase, so this runs before the ClientRouter's own link handling.
+  document.addEventListener(
+    'click',
+    (e) => {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const hit = donateLinkFrom(e.target);
+      if (!hit) return;
+      e.preventDefault();
+      e.stopPropagation();
+      load(hit.iframe, hit.modal);
+      hit.modal.showModal();
+      hit.iframe.contentWindow?.postMessage({ id: ZEFFY_ID, open: true }, '*');
+    },
+    true
+  );
+
+  // Close on a click outside the form (on the dimmed backdrop).
+  document.addEventListener('click', (e) => {
+    const modal = getModal();
+    if (modal?.open && e.target === modal) modal.close();
+  });
+
+  // Zeffy's own close button inside the form asks the page to close it.
+  // (Escape is handled natively by <dialog>.)
+  window.addEventListener('message', (e) => {
+    const modal = getModal();
+    if (!modal || e.source !== modal.querySelector('iframe')?.contentWindow) return;
+    if (e.data?.id === ZEFFY_ID && e.data.close) modal.close();
+  });
+</script>

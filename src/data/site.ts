@@ -27,6 +27,12 @@ export const ORG = {
   newsletterUrl: 'https://eepurl.com/FMel2fvjMe',
 };
 
+// FAHNN's Zeffy donation form. Every link to /donate opens it as a popup
+// (src/components/common/ZeffyModal.astro).
+export const DONATE = {
+  zeffyFormUrl: 'https://www.zeffy.com/embed/donation-form/the-valley-southside-breathes-again',
+};
+
 // FAHNN's public Google Calendar of markets and events, embedded on Get Involved.
 const calendarId = 'eb2786cfa9f46c80ec5bdd311d0c6c9c3434fd76f53743ef002f395f797999a7@group.calendar.google.com';
 const calendarEmbed = (mode: 'MONTH' | 'AGENDA') =>

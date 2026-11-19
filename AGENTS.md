@@ -62,7 +62,7 @@ Header: Our Story · Our People · Get Involved · News, plus Search and a **Don
 
 - **No third-party branding on the site.** No AstroWind, Astro, GitHub, or Netlify names, links, icons, or "made with" credits in the header, footer, or anywhere visitors see. Social links are Instagram, Facebook, and email only. (Zeffy's branding inside its embedded form is acceptable.)
 - **Search:** Pagefind (static index built after `astro build`, styled to match the site; header, nav, and footer excluded from the index).
-- **Donations (Zeffy):** inline `<iframe>` embed on `/donate` via a reusable `src/components/common/ZeffyEmbed.astro`, plus Zeffy's modal popup for Donate buttons elsewhere. Store the form URL once. Load Zeffy's script with `is:inline` and `data-astro-rerun` because `<ClientRouter />` page transitions can stop scripts re-running after navigation.
+- **Donations (Zeffy):** the form URL lives once, in `DONATE` in `src/data/site.ts`. **Every link to `/donate` opens the form as a popup** (`src/components/common/ZeffyModal.astro`, rendered once in `Layout.astro`), so Donate buttons just link to `/donate` and need nothing extra. Ctrl/Cmd-click still opens `/donate`. Don't add Zeffy's `embed-form-script.min.js`: it only runs on `DOMContentLoaded`, so it breaks after a `<ClientRouter />` page transition, and it doesn't stop a link from navigating. Planned: an inline `<iframe>` embed on `/donate` via a reusable `src/components/common/ZeffyEmbed.astro` (on that page the popup steps aside).
 - **Forms:** Netlify Forms for contact and volunteer forms (with a honeypot field).
 - **Hosting:** Netlify (`netlify.toml`). Every push to `main` deploys.
 
