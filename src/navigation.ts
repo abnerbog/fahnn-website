@@ -26,7 +26,7 @@ export const footerData = {
       title: 'Connect',
       links: [
         { text: 'Donate', href: getPermalink('/donate') },
-        { text: 'Contact us', href: getPermalink('/contact') },
+        { text: 'Contact us', href: `mailto:${ORG.email}` },
         {
           text: 'Directions to FAHNN',
           href: ORG.mapUrl,
