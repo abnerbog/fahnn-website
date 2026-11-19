@@ -1,0 +1,303 @@
+---
+import { Icon } from 'astro-icon/components';
+import Layout from '~/layouts/PageLayout.astro';
+import Button from '~/components/ui/Button.astro';
+import Headline from '~/components/ui/Headline.astro';
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+import PhotoHero from '~/components/widgets/PhotoHero.astro';
+
+import { ORG } from '~/data/site';
+import { PRESS, PRESS_KINDS, formatPressDate, type PressItem, type PressKind } from '~/data/press';
+import { getPermalink } from '~/utils/permalinks';
+
+import emptyStore from '~/assets/images/grocery_store_empty.png';
+
+const metadata = {
+  title: 'News',
+  description: `Local TV, newspapers, radio, and student reporters on ${ORG.shortName}’s work for food and health in Syracuse’s Valley/Southside.`,
+};
+
+// Every outlet that has covered us, local first, then the wider world.
+const KIND_ORDER: Array<PressKind> = ['newspaper', 'tv', 'radio', 'campus', 'community', 'national'];
+const byKind = (a: PressItem, b: PressItem) => KIND_ORDER.indexOf(a.kind) - KIND_ORDER.indexOf(b.kind);
+const outlets = [...new Map([...PRESS].sort(byKind).map((item) => [item.outlet, item])).values()];
+const kinds = KIND_ORDER.filter((kind) => PRESS.some((item) => item.kind === kind));
+
+const featured = PRESS.filter((item) => item.featured && item.url).slice(0, 3);
+const pullQuote = PRESS.find((item) => item.quote);
+
+// The full timeline, grouped by year, newest first.
+const years = [...new Set(PRESS.map((item) => item.date.slice(0, 4)))].sort().reverse();
+const storiesIn = (year: string) =>
+  PRESS.filter((item) => item.date.startsWith(year)).sort((a, b) => b.date.localeCompare(a.date));
+
+const pressMailto = `mailto:${ORG.email}?subject=${encodeURIComponent(`Press inquiry for ${ORG.shortName}`)}`;
+---
+
+<Layout metadata={metadata}>
+  <!-- 1. Hero: the neighborhood asked, and the city listened ************** -->
+
+  <PhotoHero
+    image={emptyStore}
+    alt="The empty former grocery store at Valley Plaza at sunset, its sign removed and its windows papered over, with a city bus passing the quiet parking lot."
+    title="Syracuse is paying attention."
+    focus="50% 40%"
+  >
+    Local TV, newspapers, radio, and student reporters have followed our push for good food and good health in the
+    Valley/Southside.
+  </PhotoHero>
+
+  <!-- 2. Featured coverage ************************************************ -->
+
+  <WidgetWrapper id="featured">
+    <Headline
+      tagline="In the news"
+      title="Neighbors asked for a grocery store. The story made headlines."
+      subtitle="Here’s where to start. Every link opens the original story."
+      classes={{ container: 'max-w-3xl' }}
+    />
+
+    <p class="sr-only">Outlets that have covered us:</p>
+    <ul class="-mt-4 mb-12 flex flex-wrap gap-x-3 gap-y-3 md:mb-16">
+      {
+        outlets.map(({ outlet, kind }) => (
+          <li class="inline-flex items-center gap-2 rounded-full border border-secondary/30 px-4 py-2 text-base font-bold text-heading">
+            <Icon name={PRESS_KINDS[kind].icon} class="h-5 w-5 shrink-0 text-secondary" aria-hidden="true" />
+            {outlet}
+          </li>
+        ))
+      }
+    </ul>
+
+    <ul class="grid gap-6 lg:grid-cols-3">
+      {
+        featured.map((item) => (
+          <li class="flex flex-col rounded-2xl bg-surface p-6 md:p-8">
+            <p class="flex flex-wrap items-center gap-x-3 gap-y-1 text-base">
+              <span class="font-bold text-secondary uppercase">{item.outlet}</span>
+              <span class="text-muted">
+                <time datetime={item.date}>{formatPressDate(item.date)}</time>
+              </span>
+            </p>
+            <h3 class="mt-4 font-heading text-2xl leading-tight font-bold text-balance text-heading">
+              {item.headline}
+            </h3>
+            <p class="mt-3 grow text-lg text-pretty text-muted">{item.summary}</p>
+            <a
+              href={item.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mt-6 inline-flex items-center gap-2 text-lg font-bold text-link underline underline-offset-4"
+            >
+              Read at {item.outlet}
+              <Icon name="tabler:external-link" class="h-5 w-5" aria-hidden="true" />
+              <span class="sr-only"> (opens in a new tab)</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    {
+      pullQuote?.quote && (
+        <figure class="mx-auto mt-14 max-w-4xl border-l-4 border-highlight pl-6 md:mt-20 md:pl-10">
+          <blockquote class="font-heading text-3xl leading-snug font-bold text-balance text-heading md:text-4xl">
+            “{pullQuote.quote.text}”
+          </blockquote>
+          <figcaption class="mt-4 text-lg text-muted">
+            {pullQuote.quote.by}, to{' '}
+            {pullQuote.url ? (
+              <a
+                href={pullQuote.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-link underline underline-offset-4"
+              >
+                {pullQuote.outlet}
+                <span class="sr-only"> (opens in a new tab)</span>
+              </a>
+            ) : (
+              pullQuote.outlet
+            )}
+            , {formatPressDate(pullQuote.date)}
+          </figcaption>
+        </figure>
+      )
+    }
+  </WidgetWrapper>
+
+  <!-- 3. Every story, newest first **************************************** -->
+
+  <WidgetWrapper id="all-coverage">
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-surface"></div>
+    </Fragment>
+
+    <div class="max-w-3xl">
+      <p class="text-base font-bold tracking-wide text-secondary uppercase">Every story</p>
+      <h2
+        class="mt-2 font-heading text-3xl leading-tighter font-bold tracking-tighter text-balance text-heading md:text-4xl"
+      >
+        Year after year, the coverage kept coming.
+      </h2>
+      <p class="mt-4 text-lg text-pretty">Newest first. Jump to a year, or show one kind of outlet.</p>
+    </div>
+
+    <div class="mt-8 flex flex-col gap-5">
+      <nav aria-label="Jump to a year">
+        <ul class="flex flex-wrap gap-3">
+          {
+            years.map((year) => (
+              <li>
+                <a
+                  href={`#news-${year}`}
+                  class="inline-flex min-h-11 items-center rounded-full bg-primary px-5 font-bold text-on-primary hover:opacity-90"
+                >
+                  {year}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <!-- Filters need JavaScript, so they stay hidden until the script runs. -->
+      <div id="press-filters" class="hidden flex-wrap gap-3" role="group" aria-label="Show coverage from">
+        <button
+          type="button"
+          data-kind="all"
+          aria-pressed="true"
+          class="min-h-11 rounded-full border-2 border-primary px-4 font-bold text-primary aria-pressed:bg-primary aria-pressed:text-on-primary"
+        >
+          All
+        </button>
+        {
+          kinds.map((kind) => (
+            <button
+              type="button"
+              data-kind={kind}
+              aria-pressed="false"
+              class="inline-flex min-h-11 items-center gap-2 rounded-full border-2 border-primary px-4 font-bold text-primary aria-pressed:bg-primary aria-pressed:text-on-primary"
+            >
+              <Icon name={PRESS_KINDS[kind].icon} class="h-5 w-5 shrink-0" aria-hidden="true" />
+              {PRESS_KINDS[kind].label}
+            </button>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="mt-12 space-y-14">
+      {
+        years.map((year) => (
+          <section id={`news-${year}`} data-press-year class="scroll-mt-28">
+            <h3 class="font-heading text-4xl font-bold text-heading md:text-5xl">{year}</h3>
+            <ol class="mt-6 border-l-2 border-secondary/40">
+              {storiesIn(year).map((item) => (
+                <li data-press-kind={item.kind} class="relative pb-8 pl-8 last:pb-0 md:pl-10">
+                  <span
+                    class="absolute top-2 -left-2.25 h-4 w-4 rounded-full border-4 border-surface bg-secondary"
+                    aria-hidden="true"
+                  />
+                  <p class="flex flex-wrap items-center gap-x-3 gap-y-2 text-base">
+                    <time datetime={item.date} class="font-bold text-heading">
+                      {formatPressDate(item.date)}
+                    </time>
+                    <span class="inline-flex items-center gap-1.5 rounded-full bg-page px-3 py-1 font-bold text-secondary">
+                      <Icon name={PRESS_KINDS[item.kind].icon} class="h-4 w-4 shrink-0" aria-hidden="true" />
+                      {item.outlet}
+                      <span class="sr-only">, {PRESS_KINDS[item.kind].label}</span>
+                    </span>
+                  </p>
+                  <h4 class="mt-2 text-xl font-bold text-pretty text-heading md:text-2xl">
+                    {item.url ? (
+                      <a
+                        href={item.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="underline decoration-secondary/40 underline-offset-4 hover:text-link hover:decoration-current"
+                      >
+                        {item.headline}
+                        <Icon
+                          name="tabler:external-link"
+                          class="ml-1 inline h-5 w-5 align-[-0.125em] text-secondary"
+                          aria-hidden="true"
+                        />
+                        <span class="sr-only"> (opens {item.outlet} in a new tab)</span>
+                      </a>
+                    ) : (
+                      item.headline
+                    )}
+                  </h4>
+                  <p class="mt-2 max-w-3xl text-lg text-pretty text-muted">{item.summary}</p>
+                </li>
+              ))}
+            </ol>
+          </section>
+        ))
+      }
+    </div>
+
+    <script is:inline data-astro-rerun>
+      (() => {
+        const filters = document.getElementById('press-filters');
+        if (!filters) return;
+        filters.classList.remove('hidden');
+        filters.classList.add('flex');
+        const buttons = [...filters.querySelectorAll('button[data-kind]')];
+        const years = [...document.querySelectorAll('[data-press-year]')];
+        const show = (kind) => {
+          buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.kind === kind)));
+          years.forEach((year) => {
+            const items = [...year.querySelectorAll('[data-press-kind]')];
+            items.forEach((item) => (item.hidden = kind !== 'all' && item.dataset.pressKind !== kind));
+            year.hidden = items.every((item) => item.hidden);
+          });
+        };
+        buttons.forEach((b) => b.addEventListener('click', () => show(b.dataset.kind)));
+      })();
+    </script>
+  </WidgetWrapper>
+
+  <!-- 4. For reporters ****************************************************** -->
+
+  <WidgetWrapper id="press">
+    <div
+      class="mx-auto flex max-w-4xl flex-col items-start gap-6 rounded-2xl border-2 border-secondary/30 p-6 md:flex-row md:items-center md:gap-10 md:p-10"
+    >
+      <span class="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-primary text-on-primary">
+        <Icon name="tabler:microphone" class="h-8 w-8" aria-hidden="true" />
+      </span>
+      <div class="grow">
+        <h2
+          class="font-heading text-3xl leading-tighter font-bold tracking-tighter text-balance text-heading md:text-4xl"
+        >
+          Telling our story?
+        </h2>
+        <p class="mt-3 text-lg text-pretty">
+          Reporters and students are always welcome. Email us, or come see the market for yourself on a Saturday.
+        </p>
+      </div>
+      <Button
+        variant="primary"
+        text="Email us"
+        href={pressMailto}
+        icon="tabler:send"
+        class="w-full shrink-0 whitespace-nowrap md:w-auto"
+      />
+    </div>
+  </WidgetWrapper>
+
+  <!-- Next step: join in ************************************************** -->
+
+  <CallToAction
+    layout="banner"
+    title="Be part of the next story."
+    subtitle="Come to the market, lend a hand, or give. Every neighbor helps write what happens next."
+    actions={[
+      { variant: 'primary', text: 'Get involved', href: getPermalink('/get-involved') },
+      { text: 'Donate', href: getPermalink('/donate') },
+    ]}
+  />
+</Layout>
