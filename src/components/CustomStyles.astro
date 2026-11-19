@@ -2,6 +2,10 @@
 // Font family is provided by Astro's native Fonts API (see `fonts` in
 // astro.config.ts and <Font /> in Layout.astro), exposed as `--font-inter`.
 // To switch typefaces, change the `fonts` entry and repoint `--aw-font-*` below.
+//
+// FAHNN palette (AGENTS.md, "Design system"): green for food and growth,
+// tomato for the harvest and for health, cream for the market table.
+// `on-primary` / `on-accent` are the text colors used on filled buttons and bands.
 ---
 
 <style is:inline>
@@ -10,19 +14,25 @@
     --aw-font-serif: var(--font-inter);
     --aw-font-heading: var(--font-inter);
 
-    --aw-color-primary: rgb(1 97 239);
-    --aw-color-secondary: rgb(1 84 207);
-    --aw-color-accent: rgb(109 40 217);
+    --aw-color-primary: rgb(30 74 46); /* Forest */
+    --aw-color-secondary: rgb(47 122 59); /* Garden */
+    --aw-color-accent: rgb(184 67 42); /* Tomato */
+    --aw-color-highlight: rgb(242 179 61); /* Sunflower: accents only, never text on light backgrounds */
+    --aw-color-on-primary: rgb(255 255 255);
+    --aw-color-on-accent: rgb(255 255 255);
+    --aw-color-link: rgb(47 122 59); /* Garden */
 
-    --aw-color-text-heading: rgb(0 0 0);
-    --aw-color-text-default: rgb(16 16 16);
-    --aw-color-text-muted: rgb(16 16 16 / 66%);
-    --aw-color-bg-page: rgb(255 255 255);
+    --aw-color-text-heading: rgb(30 74 46); /* Forest */
+    --aw-color-text-default: rgb(36 33 29); /* Ink */
+    --aw-color-text-muted: rgb(36 33 29 / 72%);
+    --aw-color-bg-page: rgb(251 247 239); /* Cream */
+    --aw-color-bg-surface: rgb(230 240 220); /* Sprout */
+    --aw-color-bg-chrome: rgb(255 255 255); /* header and footer */
 
-    --aw-color-bg-page-dark: rgb(8 9 10);
+    --aw-color-bg-page-dark: rgb(20 26 21); /* Night */
 
     ::selection {
-      background-color: lavender;
+      background-color: rgb(230 240 220);
     }
   }
 
@@ -31,18 +41,24 @@
     --aw-font-serif: var(--font-inter);
     --aw-font-heading: var(--font-inter);
 
-    --aw-color-primary: rgb(1 97 239);
-    --aw-color-secondary: rgb(1 84 207);
-    --aw-color-accent: rgb(109 40 217);
+    --aw-color-primary: rgb(140 201 122); /* Leaf */
+    --aw-color-secondary: rgb(140 201 122); /* Leaf */
+    --aw-color-accent: rgb(240 138 108); /* Tomato-light */
+    --aw-color-highlight: rgb(242 179 61); /* Sunflower */
+    --aw-color-on-primary: rgb(20 26 21); /* Night */
+    --aw-color-on-accent: rgb(20 26 21); /* Night */
+    --aw-color-link: rgb(140 201 122); /* Leaf */
 
-    --aw-color-text-heading: rgb(247, 248, 248);
-    --aw-color-text-default: rgb(229 236 246);
-    --aw-color-text-muted: rgb(229 236 246 / 66%);
-    --aw-color-bg-page: rgb(8 9 10);
+    --aw-color-text-heading: rgb(237 232 222);
+    --aw-color-text-default: rgb(237 232 222);
+    --aw-color-text-muted: rgb(237 232 222 / 72%);
+    --aw-color-bg-page: rgb(20 26 21); /* Night */
+    --aw-color-bg-surface: rgb(29 38 31);
+    --aw-color-bg-chrome: rgb(20 26 21); /* Night */
 
     ::selection {
-      background-color: black;
-      color: snow;
+      background-color: rgb(30 74 46);
+      color: rgb(237 232 222);
     }
   }
 </style>

@@ -178,7 +178,7 @@ export interface Disclaimer {
 
 // COMPONENTS
 export interface CallToAction extends Omit<HTMLAttributes<'a'>, 'slot'> {
-  variant?: 'primary' | 'secondary' | 'tertiary' | 'link';
+  variant?: 'primary' | 'secondary' | 'tertiary' | 'accent' | 'link';
   text?: string;
   icon?: string;
   classes?: Record<string, string>;
@@ -372,6 +372,8 @@ export interface TimelineItem {
   description?: string;
   icon?: string;
   image?: string | Image;
+  /** A partner's logo, shown small on a white tile so any logo reads in light and dark mode. */
+  logo?: Image;
   /** Filled marker for the current or most important entry. */
   highlight?: boolean;
   /** Faded entry with a dashed connector: a gap, something uncertain, or what comes next. */

@@ -26,6 +26,11 @@ const whenExternalScripts = (items: (() => AstroIntegration) | (() => AstroInteg
 export default defineConfig({
   output: 'static',
 
+  // Our Story is the home page.
+  redirects: {
+    '/our-story': '/',
+  },
+
   // Prefetch links as they enter the viewport for snappier navigations
   // (works together with <ClientRouter />, which enables prefetch by default).
   prefetch: {

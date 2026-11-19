@@ -1,31 +1,29 @@
 site:
-  name: AstroWind
-  site: 'https://astrowind.vercel.app'
+  name: Food Access Healthy Neighborhoods Now
+  site: 'https://fahnn.netlify.app'
   base: '/'
   trailingSlash: false
 
-  googleSiteVerificationId: orcPxI47GSa-cRvY11tUe6iGg2IO_RPvnA1q95iEM3M
+  # Set this to FAHNN's own ID from Google Search Console when the site is verified.
+  googleSiteVerificationId: null
 
 # Default SEO metadata
 metadata:
   title:
-    default: AstroWind
-    template: '%s — AstroWind'
-  description: "\U0001F680 Suitable for Startups, Small Business, Sass Websites, Professional Portfolios, Marketing Websites, Landing Pages & Blogs."
+    default: Food Access Healthy Neighborhoods Now
+    template: '%s — Food Access Healthy Neighborhoods Now'
+  description: 'Food and health are human rights. FAHNN is a neighbor-led nonprofit in Syracuse’s Valley/Southside bringing fresh food and health services back to the neighborhood.'
   robots:
     index: true
     follow: true
+  # Link preview when the site is shared (Facebook, texts, email). Cropped to 1200×628.
   openGraph:
-    site_name: AstroWind
+    site_name: Food Access Healthy Neighborhoods Now
     images:
-      - url: '~/assets/images/default.png'
+      - url: '~/assets/images/farmers_market_outside.png'
         width: 1200
         height: 628
     type: website
-  twitter:
-    handle: '@arthelokyo'
-    site: '@arthelokyo'
-    cardType: summary_large_image
 
 i18n:
   language: en

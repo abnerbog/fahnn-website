@@ -39,7 +39,7 @@ const alternate = layout === 'alternate';
     >
     </div>
     {
-      items.map(({ date, title: itemTitle, description, icon, image, highlight, ghost }, index) => (
+      items.map(({ date, title: itemTitle, description, icon, image, logo, highlight, ghost }, index) => (
         <li
           class:list={[
             'relative pl-14 pb-10 last:pb-0 intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade',
@@ -82,6 +82,20 @@ const alternate = layout === 'alternate';
             <h3 class:list={['mt-1 text-xl font-bold', ghost ? 'text-muted italic' : 'text-heading']}>{itemTitle}</h3>
           )}
           {description && <p class="mt-2 text-muted text-pretty" set:html={description} />}
+          {logo && (
+            <span class="mt-4 inline-flex h-24 items-center rounded-xl bg-white px-4 py-2 shadow-sm ring-1 ring-black/10">
+              <Image
+                src={logo.src}
+                alt={logo.alt ?? ''}
+                height={80}
+                widths={[160, 320]}
+                sizes="160px"
+                layout="none"
+                format="webp"
+                class="h-20 w-auto max-w-56 object-contain"
+              />
+            </span>
+          )}
           {image &&
             (typeof image === 'string' ? (
               <Fragment set:html={image} />
@@ -102,4 +116,11 @@ const alternate = layout === 'alternate';
       ))
     }
   </ol>
+  {
+    Astro.slots.has('default') && (
+      <div class="mt-12 text-center">
+        <slot />
+      </div>
+    )
+  }
 </WidgetWrapper>

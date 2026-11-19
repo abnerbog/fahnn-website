@@ -21,7 +21,6 @@ Files: `src/components/widgets/Header.astro` (markup + `aw-header` web component
 
 - Mobile/tablet (< 1024 px): hamburger (`ToggleMenu`), full-screen menu (`#header.expanded nav` in `tailwind.css`), actions pinned to the bottom.
 - Desktop (`lg`, ≥ 1024 px): inline menu with hover/focus dropdowns.
-- The announcement bar (`Announcement.astro`) uses the same `lg` breakpoint.
 
 To change the breakpoint, replace every `lg:` in `Header.astro` and the two `#header.scroll` rules in `tailwind.css`, and update `matchMedia('(max-width: 1023px)')` in the component script. Keep them in sync or the menu will not close when resizing.
 
