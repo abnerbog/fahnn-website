@@ -75,5 +75,5 @@ export const MARKET = {
   days: 'Saturdays',
   hours: '8 a.m.–2 p.m.',
   location: address.street,
-  payment: 'SNAP accepted',
+  payment: 'SNAP accepted at participating vendors',
 };
