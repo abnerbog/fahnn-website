@@ -31,6 +31,29 @@ export const ORG = {
 // (src/components/common/ZeffyModal.astro).
 export const DONATE = {
   zeffyFormUrl: 'https://www.zeffy.com/embed/donation-form/the-valley-southside-breathes-again',
+  /** The current giving campaign, shown beside the form. */
+  campaign: {
+    title: 'We’ve put down roots, now help us grow!',
+    /** What a gift pays for, as short bullets with a tabler icon each. */
+    supports: [
+      {
+        icon: 'tabler:users-group',
+        title: 'A growing team',
+        text: 'Staff support for Executive Director Rhonda Vesey and new team members to help run operations.',
+      },
+      {
+        icon: 'tabler:plant-2',
+        title: 'Our programs',
+        text: 'Farmers markets, Mobile Markets, Wellness Wednesdays, and community gatherings.',
+      },
+      {
+        icon: 'tabler:messages',
+        title: 'Neighbors’ voices, heard',
+        text: 'Focus groups and community meetings that bring neighbors’ needs to the new grocery store, the planned pharmacy, and leaders across Syracuse.',
+      },
+    ],
+    vision: 'Next, we’re building toward a community-owned hub in the Valley/Southside for food, health, and services.',
+  },
 };
 
 // FAHNN's public Google Calendar of markets and events, embedded on Get Involved.
