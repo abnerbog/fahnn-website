@@ -23,6 +23,32 @@ export const ORG = {
     instagram: 'https://www.instagram.com/healthyneighborhoodsnow/',
     facebook: 'https://www.facebook.com/fahnnsyracuse/',
   },
+  /** Sign-up page for FAHNN's email list. */
+  newsletterUrl: 'https://eepurl.com/FMel2fvjMe',
+};
+
+// FAHNN's public Google Calendar of markets and events, embedded on Get Involved.
+const calendarId = 'eb2786cfa9f46c80ec5bdd311d0c6c9c3434fd76f53743ef002f395f797999a7@group.calendar.google.com';
+const calendarEmbed = (mode: 'MONTH' | 'AGENDA') =>
+  `https://calendar.google.com/calendar/embed?${new URLSearchParams({
+    src: calendarId,
+    ctz: 'America/New_York',
+    mode,
+    showTitle: '0',
+    showPrint: '0',
+    showTabs: '0',
+    showCalendars: '0',
+  })}`;
+
+export const CALENDAR = {
+  /** Month grid, for wider screens. */
+  embedMonthUrl: calendarEmbed('MONTH'),
+  /** A simple list of upcoming events, easier to read on a phone. */
+  embedAgendaUrl: calendarEmbed('AGENDA'),
+  /** The full calendar in its own tab. */
+  viewUrl: `https://calendar.google.com/calendar/embed?${new URLSearchParams({ src: calendarId, ctz: 'America/New_York' })}`,
+  /** Adds the calendar to a visitor's own Google Calendar. */
+  subscribeUrl: `https://calendar.google.com/calendar/render?${new URLSearchParams({ cid: calendarId })}`,
 };
 
 // The core facts of FAHNN's story, quoted on Our Story, Home and At a Glance.

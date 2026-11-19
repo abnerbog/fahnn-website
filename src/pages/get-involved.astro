@@ -1,0 +1,288 @@
+---
+import { Icon } from 'astro-icon/components';
+import Layout from '~/layouts/PageLayout.astro';
+import Button from '~/components/ui/Button.astro';
+import Headline from '~/components/ui/Headline.astro';
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+import PhotoHero from '~/components/widgets/PhotoHero.astro';
+
+import { ORG, MARKET, CALENDAR } from '~/data/site';
+import { getPermalink } from '~/utils/permalinks';
+
+import marketSigns from '~/assets/images/farmers_market_outside_signs.png';
+
+const metadata = {
+  title: 'Get Involved',
+  description: `Come to the market or an event, join our mailing list, volunteer, or partner with ${ORG.shortName} in Syracuse’s Valley/Southside.`,
+};
+
+const mailto = `mailto:${ORG.email}?subject=${encodeURIComponent(`Getting involved with ${ORG.shortName}`)}`;
+
+// The ways in, easiest first. Each card leads to the section (or page) that
+// tells you how, in the same order as the page.
+const PATHWAYS = [
+  {
+    icon: 'tabler:calendar-event',
+    title: 'Come to the market or an event',
+    description: 'Shop for fresh food on Saturdays, and join our workshops and gatherings. Everyone is welcome.',
+    action: { text: 'See the calendar', href: '#calendar' },
+  },
+  {
+    icon: 'tabler:mail',
+    title: 'Join our mailing list',
+    description: 'Get news about markets, events, and what’s next, sent to your inbox.',
+    action: { text: 'Sign up', href: '#newsletter' },
+  },
+  {
+    icon: 'tabler:heart-handshake',
+    title: 'Volunteer or partner with us',
+    description: 'Lend a hand on market day, or work with us as a group or organization.',
+    action: { text: 'Reach out', href: '#volunteer' },
+  },
+  {
+    icon: 'tabler:gift',
+    title: 'Give',
+    description: 'Your gift keeps fresh food and good health within reach in the Valley/Southside.',
+    action: { text: 'Donate', href: getPermalink('/donate') },
+  },
+];
+
+// What to put in an email, so a first message gets a quick answer.
+const EMAIL_TIPS = ['Your name', 'How you’d like to help', 'When you’re free, or what your group does'];
+---
+
+<Layout metadata={metadata}>
+  <!-- 1. Hero: go together ********************************************* -->
+
+  <PhotoHero
+    image={marketSigns}
+    alt="FAHNN posters fill the windows of a storefront at Valley Plaza, announcing the Saturday farmers market from 8 a.m. to 2 p.m. and the winter market."
+    title="If you want to go far, go together."
+    focus="70% 40%"
+  >
+    There’s a place for everyone at {ORG.shortName}. Come to the market, join an event, lend a hand, or work with us.
+    Here’s how to start.
+  </PhotoHero>
+
+  <!-- 2. Ways to get involved ******************************************* -->
+
+  <WidgetWrapper id="ways">
+    <Headline
+      tagline="Ways to get involved"
+      title="Pick a way in. Every one helps."
+      subtitle="Start with whatever fits your life right now. You can always do more later."
+      classes={{ container: 'max-w-3xl' }}
+    />
+    <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        PATHWAYS.map(({ icon, title, description, action }) => (
+          <li class="flex flex-col rounded-2xl bg-surface p-6 md:p-8">
+            <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-primary text-on-primary">
+              <Icon name={icon} class="h-7 w-7" aria-hidden="true" />
+            </span>
+            <h3 class="mt-5 text-2xl font-bold text-balance text-heading">{title}</h3>
+            <p class="mt-2 grow text-lg text-pretty text-muted">{description}</p>
+            <a
+              href={action.href}
+              class="mt-6 inline-flex items-center gap-2 text-lg font-bold text-link underline underline-offset-4"
+            >
+              {action.text}
+              <Icon name="tabler:arrow-right" class="h-5 w-5" aria-hidden="true" />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </WidgetWrapper>
+
+  <!-- 3. Calendar: come to the market or an event ********************** -->
+
+  <WidgetWrapper id="calendar">
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-surface"></div>
+    </Fragment>
+    <div class="grid gap-8 lg:grid-cols-12 lg:items-end">
+      <div class="lg:col-span-7">
+        <p class="text-base font-bold tracking-wide text-secondary uppercase">Our calendar</p>
+        <h2
+          class="mt-2 font-heading text-3xl leading-tighter font-bold tracking-tighter text-balance text-heading md:text-4xl"
+        >
+          Come as you are. There’s always a seat for you.
+        </h2>
+        <p class="mt-4 text-lg text-pretty">
+          Markets, workshops, and community gatherings are all on our calendar. Everyone is welcome.
+        </p>
+      </div>
+      <ul class="space-y-3 text-lg lg:col-span-5">
+        <li class="flex items-center gap-3">
+          <Icon name="tabler:basket" class="h-6 w-6 shrink-0 text-secondary" aria-hidden="true" />
+          <span><strong>{MARKET.name}:</strong> {MARKET.days}, {MARKET.hours}</span>
+        </li>
+        <li class="flex items-center gap-3">
+          <Icon name="tabler:map-pin" class="h-6 w-6 shrink-0 text-secondary" aria-hidden="true" />
+          <a href={ORG.mapUrl} target="_blank" rel="noopener noreferrer" class="text-link underline underline-offset-4">
+            {ORG.fullAddress}<span class="sr-only"> (opens Google Maps in a new tab)</span>
+          </a>
+        </li>
+        <li class="flex items-center gap-3">
+          <Icon name="tabler:circle-check" class="h-6 w-6 shrink-0 text-secondary" aria-hidden="true" />
+          <span>{MARKET.payment}</span>
+        </li>
+      </ul>
+    </div>
+
+    <!--
+      Phones get the simple list of upcoming events; wider screens get the
+      month grid (swapped in by the script below). Without JavaScript, the list
+      shows everywhere.
+    -->
+    <div class="mt-10 overflow-hidden rounded-2xl border border-black/10 bg-white shadow-lg">
+      <iframe
+        id="fahnn-calendar"
+        src={CALENDAR.embedAgendaUrl}
+        data-month-src={CALENDAR.embedMonthUrl}
+        title={`${ORG.shortName} calendar of markets and events`}
+        loading="lazy"
+        class="block h-128 w-full border-0 md:h-160"></iframe>
+    </div>
+    <script is:inline data-astro-rerun>
+      (() => {
+        const frame = document.getElementById('fahnn-calendar');
+        if (frame && frame.dataset.monthSrc && window.matchMedia('(min-width: 768px)').matches) {
+          frame.src = frame.dataset.monthSrc;
+        }
+      })();
+    </script>
+
+    <div class="mt-6 flex flex-col gap-4 text-lg sm:flex-row sm:flex-wrap sm:gap-8">
+      <a
+        href={CALENDAR.subscribeUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 text-link underline underline-offset-4"
+      >
+        <Icon name="tabler:calendar-plus" class="h-5 w-5" aria-hidden="true" />
+        Add our events to your Google Calendar<span class="sr-only"> (opens in a new tab)</span>
+      </a>
+      <a
+        href={CALENDAR.viewUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 text-link underline underline-offset-4"
+      >
+        <Icon name="tabler:external-link" class="h-5 w-5" aria-hidden="true" />
+        Open the full calendar<span class="sr-only"> (opens in a new tab)</span>
+      </a>
+    </div>
+  </WidgetWrapper>
+
+  <!-- 4. Mailing list *************************************************** -->
+
+  <WidgetWrapper id="newsletter">
+    <div
+      class="mx-auto flex max-w-4xl flex-col items-start gap-6 rounded-2xl border-2 border-secondary/30 p-6 md:flex-row md:items-center md:gap-10 md:p-10"
+    >
+      <span class="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-primary text-on-primary">
+        <Icon name="tabler:mail" class="h-8 w-8" aria-hidden="true" />
+      </span>
+      <div class="grow">
+        <h2
+          class="font-heading text-3xl leading-tighter font-bold tracking-tighter text-balance text-heading md:text-4xl"
+        >
+          Stay in the loop.
+        </h2>
+        <p class="mt-3 text-lg text-pretty">
+          Join our mailing list for news about markets, events, and what’s next for the Valley/Southside. It’s free, and
+          you can stop anytime.
+        </p>
+      </div>
+      <Button
+        variant="primary"
+        text="Join our mailing list"
+        href={ORG.newsletterUrl}
+        target="_blank"
+        icon="tabler:external-link"
+        aria-label="Join our mailing list (opens in a new tab)"
+        class="w-full shrink-0 whitespace-nowrap md:w-auto"
+      />
+    </div>
+  </WidgetWrapper>
+
+  <!-- 5. Volunteer or partner: email us ******************************** -->
+
+  <WidgetWrapper id="volunteer">
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-surface"></div>
+    </Fragment>
+    <div class="grid items-center gap-10 lg:grid-cols-12 lg:gap-16">
+      <div class="lg:col-span-6">
+        <p class="text-base font-bold tracking-wide text-secondary uppercase">Volunteer or partner</p>
+        <h2
+          class="mt-2 font-heading text-3xl leading-tighter font-bold tracking-tighter text-balance text-heading md:text-4xl"
+        >
+          Want to lend a hand, or work with us? Just ask.
+        </h2>
+        <div class="mt-6 space-y-4 text-lg text-pretty">
+          <p>
+            <strong>Volunteers</strong> help set up and pack up on market day, and pitch in at our programs and events all
+            year. No experience needed.
+          </p>
+          <p>
+            <strong>Partners</strong>, from farms and schools to community groups and businesses, help us bring food and
+            health to the neighborhood.
+          </p>
+          <p>Either way, the first step is the same: send us an email. Or come say hello at the market any Saturday.</p>
+        </div>
+        <p class="mt-6 text-lg">
+          <a
+            href={`${getPermalink('/our-people')}#volunteers`}
+            class="inline-flex items-center gap-2 text-link underline underline-offset-4"
+          >
+            See what our volunteers do
+            <Icon name="tabler:arrow-right" class="h-5 w-5" aria-hidden="true" />
+          </a>
+        </p>
+      </div>
+
+      <div class="rounded-2xl bg-page p-6 shadow-lg md:p-10 lg:col-span-6">
+        <p class="flex items-center gap-3 text-xl font-bold text-heading">
+          <Icon name="tabler:mail-forward" class="h-7 w-7 shrink-0 text-secondary" aria-hidden="true" />
+          Email us
+        </p>
+        <a
+          href={mailto}
+          class="mt-3 block font-heading text-2xl font-bold break-all text-link underline underline-offset-4 md:text-3xl"
+        >
+          {ORG.email}
+        </a>
+        <p class="mt-6 text-lg font-bold text-heading">In your email, tell us:</p>
+        <ul class="mt-3 space-y-2 text-lg">
+          {
+            EMAIL_TIPS.map((tip) => (
+              <li class="flex items-start gap-3">
+                <Icon name="tabler:check" class="mt-1 h-5 w-5 shrink-0 text-secondary" aria-hidden="true" />
+                <span>{tip}</span>
+              </li>
+            ))
+          }
+        </ul>
+        <div class="mt-8">
+          <Button variant="primary" text="Write to us" href={mailto} icon="tabler:send" class="w-full sm:w-auto" />
+        </div>
+      </div>
+    </div>
+  </WidgetWrapper>
+
+  <!-- Next step: give, or meet the team ********************************* -->
+
+  <CallToAction
+    layout="banner"
+    title="Can’t give your time right now?"
+    subtitle="A gift of any size helps keep fresh food and good health within reach in the Valley/Southside."
+    actions={[
+      { variant: 'primary', text: 'Donate', href: getPermalink('/donate') },
+      { text: 'Meet our people', href: getPermalink('/our-people') },
+    ]}
+  />
+</Layout>
