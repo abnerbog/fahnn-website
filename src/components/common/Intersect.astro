@@ -87,7 +87,13 @@
           const target = entry.target as HTMLElement;
           const threshold = this.thresholds.get(target) ?? 0;
           const once = target.classList.contains('intersect-once');
-          const visible = entry.isIntersecting && entry.intersectionRatio >= threshold;
+          // A section taller than the screen can never show a quarter (or half)
+          // of itself at once, so it also counts as visible once it fills that
+          // share of the viewport. Without this, a long section stays hidden.
+          const viewport = entry.rootBounds?.height || window.innerHeight;
+          const visible =
+            entry.isIntersecting &&
+            (entry.intersectionRatio >= threshold || entry.intersectionRect.height >= viewport * threshold);
 
           if (visible) {
             if (target.hasAttribute('data-animated')) continue;
@@ -109,7 +115,10 @@
         }
       };
 
-      this.observer = new IntersectionObserver(callback, { threshold: [0, 0.25, 0.5, 0.99] });
+      // Fine-grained steps so tall elements get callbacks as they scroll in;
+      // their ratio may never reach the coarse 0.25 / 0.5 / 0.99 marks.
+      const steps = Array.from({ length: 51 }, (_, i) => i / 50);
+      this.observer = new IntersectionObserver(callback, { threshold: [...steps, 0.99] });
       observed.forEach((el) => this.observer?.observe(el));
     }
 
