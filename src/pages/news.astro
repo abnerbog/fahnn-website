@@ -8,7 +8,7 @@ import CallToAction from '~/components/widgets/CallToAction.astro';
 import PhotoHero from '~/components/widgets/PhotoHero.astro';
 
 import { ORG } from '~/data/site';
-import { PRESS, PRESS_KINDS, formatPressDate, type PressItem, type PressKind } from '~/data/press';
+import { PRESS, PRESS_KINDS, formatPressDate, type PressKind } from '~/data/press';
 import { getPermalink } from '~/utils/permalinks';
 
 import emptyStore from '~/assets/images/grocery_store_empty.png';
@@ -18,10 +18,8 @@ const metadata = {
   description: `Local TV, newspapers, radio, and student reporters on ${ORG.shortName}’s work for food and health in Syracuse’s Valley/Southside.`,
 };
 
-// Every outlet that has covered us, local first, then the wider world.
+// Outlet kinds for the timeline filter, local first, then the wider world.
 const KIND_ORDER: Array<PressKind> = ['newspaper', 'tv', 'radio', 'campus', 'community', 'national'];
-const byKind = (a: PressItem, b: PressItem) => KIND_ORDER.indexOf(a.kind) - KIND_ORDER.indexOf(b.kind);
-const outlets = [...new Map([...PRESS].sort(byKind).map((item) => [item.outlet, item])).values()];
 const kinds = KIND_ORDER.filter((kind) => PRESS.some((item) => item.kind === kind));
 
 const featured = PRESS.filter((item) => item.featured && item.url).slice(0, 3);
@@ -57,18 +55,6 @@ const pressMailto = `mailto:${ORG.email}?subject=${encodeURIComponent(`Press inq
       subtitle="Here’s where to start. Every link opens the original story."
       classes={{ container: 'max-w-3xl' }}
     />
-
-    <p class="sr-only">Outlets that have covered us:</p>
-    <ul class="-mt-4 mb-12 flex flex-wrap gap-x-3 gap-y-3 md:mb-16">
-      {
-        outlets.map(({ outlet, kind }) => (
-          <li class="inline-flex items-center gap-2 rounded-full border border-secondary/30 px-4 py-2 text-base font-bold text-heading">
-            <Icon name={PRESS_KINDS[kind].icon} class="h-5 w-5 shrink-0 text-secondary" aria-hidden="true" />
-            {outlet}
-          </li>
-        ))
-      }
-    </ul>
 
     <ul class="grid gap-6 lg:grid-cols-3">
       {
