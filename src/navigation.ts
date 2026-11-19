@@ -2,13 +2,13 @@ import { getHomePermalink, getPermalink } from './utils/permalinks';
 import { ORG } from './data/site';
 
 // The four main pages, in the order a first-time visitor needs them: who we
-// are and what we do, who we are together, what's new, and how to join in.
+// are and what we do, who we are together, how to join in, and what's new.
 // Our Story is the home page; /our-story redirects there (astro.config.ts).
 const mainPages = [
   { text: 'Our Story', href: getHomePermalink() },
   { text: 'Our People', href: getPermalink('/our-people') },
-  { text: 'News', href: getPermalink('/news') },
   { text: 'Get Involved', href: getPermalink('/get-involved') },
+  { text: 'News', href: getPermalink('/news') },
 ];
 
 export const headerData = {
