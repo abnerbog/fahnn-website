@@ -68,6 +68,14 @@ export const STORY = {
   groceryGrantName: 'Food Access Expansion grant',
   groceryGrantee: 'Syracuse Economic Development Corporation',
   groceryStore: 'Super Imperial Market',
+  /**
+   * The City of Syracuse's Valley Plaza Grocery Store project page: monthly
+   * project updates, a fact sheet, and community meeting slides. It is the
+   * source of truth for project news until FAHNN takes it over; when that
+   * happens, change this one URL and every link on the site follows.
+   */
+  groceryUpdatesUrl:
+    'https://www.syr.gov/Projects/Active-Projects/NBD-Projects/Commercial-Projects/Valley-Plaza-Grocery-Store',
 };
 
 export const MARKET = {

@@ -24,7 +24,7 @@ export const MILESTONES: Array<TimelineItem> = [
   {
     date: String(STORY.groceryGrantYear),
     title: 'A grocery store is on the way',
-    description: `The ${STORY.groceryGrantee} receives a ${STORY.groceryGrantAmount} ${STORY.groceryGrantName} to renovate the empty store and open ${STORY.groceryStore}. FAHNN was a catalyst for this partnership.`,
+    description: `The ${STORY.groceryGrantee} receives a ${STORY.groceryGrantAmount} ${STORY.groceryGrantName} to renovate the empty store and open ${STORY.groceryStore}. FAHNN was a catalyst for this partnership. <a href="${STORY.groceryUpdatesUrl}" target="_blank" rel="noopener noreferrer" class="text-link underline underline-offset-4">Follow the project’s monthly updates from the City of Syracuse<span class="sr-only"> (opens in a new tab)</span></a>.`,
     icon: 'tabler:shopping-cart',
     logo: { src: '~/assets/images/logo_super_imperial_market.png', alt: STORY.groceryStore },
     highlight: true,

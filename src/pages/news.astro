@@ -7,7 +7,7 @@ import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 import PhotoHero from '~/components/widgets/PhotoHero.astro';
 
-import { ORG } from '~/data/site';
+import { ORG, STORY } from '~/data/site';
 import { PRESS, PRESS_KINDS, formatPressDate, type PressKind } from '~/data/press';
 import { getPermalink } from '~/utils/permalinks';
 
@@ -49,6 +49,36 @@ const pressMailto = `mailto:${ORG.email}?subject=${encodeURIComponent(`Press inq
   <!-- 2. Featured coverage ************************************************ -->
 
   <WidgetWrapper id="featured">
+    <!-- The city runs the project page for now (STORY.groceryUpdatesUrl). -->
+    <aside
+      aria-labelledby="grocery-updates-title"
+      class="mx-auto mb-14 flex max-w-4xl flex-col items-start gap-6 rounded-2xl border-2 border-secondary/30 p-6 md:mb-20 md:flex-row md:items-center md:gap-10 md:p-10"
+    >
+      <span class="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-primary text-on-primary">
+        <Icon name="tabler:building-store" class="h-8 w-8" aria-hidden="true" />
+      </span>
+      <div class="grow">
+        <h2
+          id="grocery-updates-title"
+          class="font-heading text-3xl leading-tighter font-bold tracking-tighter text-balance text-heading md:text-4xl"
+        >
+          Following the new grocery store?
+        </h2>
+        <p class="mt-3 text-lg text-pretty">
+          The City of Syracuse, one of our biggest partners, posts monthly project updates, a fact sheet, and slides
+          from community meetings.
+        </p>
+      </div>
+      <Button
+        variant="primary"
+        text="See project updates<span class='sr-only'> (opens the City of Syracuse site in a new tab)</span>"
+        href={STORY.groceryUpdatesUrl}
+        target="_blank"
+        icon="tabler:external-link"
+        class="w-full shrink-0 whitespace-nowrap md:w-auto"
+      />
+    </aside>
+
     <Headline
       tagline="In the news"
       title="Neighbors asked for a grocery store. The story made headlines."
