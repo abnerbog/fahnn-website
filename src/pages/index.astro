@@ -8,6 +8,7 @@ import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
 import LogoCarousel from '~/components/ui/LogoCarousel.astro';
 import Timeline from '~/components/widgets/Timeline.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
+import PhotoHero from '~/components/widgets/PhotoHero.astro';
 import StructuredData from '~/components/common/StructuredData.astro';
 
 import { ORG, MARKET, STORY } from '~/data/site';
@@ -68,35 +69,15 @@ const investmentText = investmentUrl
 
   <!-- 1. Hero: the market brings the neighborhood together ************ -->
 
-  <section class="relative isolate not-prose overflow-hidden bg-black">
-    <Image
-      src={marketInside}
-      alt="Fresh bok choy, apples, pumpkins, and mushrooms on a market table, with neighbors and children gathered at tables in the room behind."
-      layout="cover"
-      widths={[640, 1024, 1600, 2400]}
-      sizes="100vw"
-      width={2400}
-      height={1600}
-      loading="eager"
-      fetchpriority="high"
-      format="webp"
-      class="absolute inset-0 -z-10 h-full w-full object-cover object-[center_30%]"
-    />
-    <div class="absolute inset-0 -z-10 bg-linear-to-t from-black/85 via-black/35 to-black/0" aria-hidden="true"></div>
-    <div
-      class="mx-auto flex min-h-[32rem] max-w-7xl flex-col justify-end px-4 pt-48 pb-6 md:min-h-[44rem] md:px-6 md:pb-8 lg:min-h-[min(80vh,56rem)]"
-    >
-      <h1
-        class="max-w-3xl font-heading text-5xl leading-tighter font-bold tracking-tighter text-balance text-white md:text-7xl"
-      >
-        Good food. Good health. Good neighbors.
-      </h1>
-      <p class="mt-6 max-w-2xl text-xl text-pretty text-white/90 md:text-2xl">
-        On market day in Syracuse’s Valley/Southside, neighbors come together over fresh food and good health. This is
-        how a neighborhood that lost its grocery store started bringing both back.
-      </p>
-    </div>
-  </section>
+  <PhotoHero
+    image={marketInside}
+    alt="Fresh bok choy, apples, pumpkins, and mushrooms on a market table, with neighbors and children gathered at tables in the room behind."
+    title="Good food. Good health. Good neighbors."
+    focus="center 30%"
+  >
+    On market day in Syracuse’s Valley/Southside, neighbors come together over fresh food and good health. This is how a
+    neighborhood that lost its grocery store started bringing both back.
+  </PhotoHero>
 
   <!-- 2. How it started ************ -->
 

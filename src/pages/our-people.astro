@@ -6,6 +6,7 @@ import Button from '~/components/ui/Button.astro';
 import Headline from '~/components/ui/Headline.astro';
 import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
+import PhotoHero from '~/components/widgets/PhotoHero.astro';
 
 import { ORG, STORY } from '~/data/site';
 import { BOARD, STAFF } from '~/data/people';
@@ -43,34 +44,15 @@ const VOLUNTEER_ROLES = [
 <Layout metadata={metadata}>
   <!-- 1. Hero: it takes a neighborhood ********************************* -->
 
-  <section class="relative isolate not-prose overflow-hidden bg-black">
-    <Image
-      src={marketOverview}
-      alt="Market tents and tables in the Valley Plaza parking lot on a sunny fall day. Neighbors shop at the stalls, with the empty store and an apartment tower behind."
-      layout="cover"
-      widths={[640, 1024, 1600, 2048]}
-      sizes="100vw"
-      width={2048}
-      height={1365}
-      loading="eager"
-      fetchpriority="high"
-      format="webp"
-      class="absolute inset-0 -z-10 h-full w-full object-cover object-[25%_bottom]"
-    />
-    <div class="absolute inset-0 -z-10 bg-linear-to-b from-black/75 via-black/30 to-black/0" aria-hidden="true"></div>
-    <div class="mx-auto flex min-h-[34rem] max-w-7xl flex-col px-4 pt-20 pb-48 md:min-h-[44rem] md:px-6 md:pt-28">
-      <p class="text-base font-bold tracking-wide text-white/85 uppercase">Our people</p>
-      <h1
-        class="mt-3 max-w-3xl font-heading text-5xl leading-tighter font-bold tracking-tighter text-balance text-white md:text-7xl"
-      >
-        It takes a neighborhood.
-      </h1>
-      <p class="mt-6 max-w-2xl text-xl text-pretty text-white/90 md:text-2xl">
-        {ORG.shortName} is a team: staff, a Board of Directors, and volunteers from the Valley/Southside and across greater
-        Syracuse. Everything we’ve built, we built together. Everything ahead will take all of us.
-      </p>
-    </div>
-  </section>
+  <PhotoHero
+    image={marketOverview}
+    alt="Market tents and tables in the Valley Plaza parking lot on a sunny fall day. Neighbors shop at the stalls, with the empty store and an apartment tower behind."
+    title="It takes a neighborhood."
+    focus="25% 85%"
+  >
+    {ORG.shortName} is a team: staff, a Board of Directors, and volunteers from the Valley/Southside and across greater Syracuse.
+    Everything we’ve built, we built together. Everything ahead will take all of us.
+  </PhotoHero>
 
   <!-- 2. Staff: the groundwork, and the team that builds on it ********** -->
 
