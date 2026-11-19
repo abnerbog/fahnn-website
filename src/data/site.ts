@@ -52,7 +52,7 @@ export const DONATE = {
         text: 'Focus groups and community meetings that bring neighbors’ needs to the new grocery store, the planned pharmacy, and leaders across Syracuse.',
       },
     ],
-    vision: 'Next, we’re building toward a community-owned hub in the Valley/Southside for food, health, and services.',
+    vision: 'Next, we’re building toward a community-owned hub in the Valley/Southside for food, health, and wellness services.',
   },
 };
 
