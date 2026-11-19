@@ -48,8 +48,9 @@ const { campaign } = DONATE;
       class="mt-2 pr-10 font-heading text-2xl sm:text-3xl font-bold leading-tight text-heading"
       set:text={campaign.title}
     />
-    <p class="mt-3 text-lg leading-relaxed">
-      Since {STORY.foundedYear}, neighbors have shown up week after week. Your gift helps that work keep growing.
+    <!-- Kept to two lines on phones (16px, ~390px wide) so Zeffy's Continue button stays in view. -->
+    <p class="mt-3 text-base sm:text-lg leading-relaxed">
+      Since {STORY.foundedYear}, neighbors have shown up week after week. Your gift helps this work grow.
     </p>
 
     <!--
